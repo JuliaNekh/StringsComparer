@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SearchProvider.ISearch
+namespace SearchProvider.IStrategy
 {
 	public interface ISearchStrategy
 	{

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using SearchProvider.Search;
+using DataProvider.DataProviders;
+using DataProvider.IDataProviders;
 
 namespace SearchProvider.ISearch
 {
@@ -10,27 +10,30 @@ namespace SearchProvider.ISearch
 	{
 		public delegate bool CurrentComparerDelegate(string currentString, string key);
 
-		protected virtual IList<string> PerformCommonSearch(CurrentComparerDelegate comparison, string key)
+		private static IDataProvider DataProvider => new FileDataProvider();
+
+		protected IList<string> PerformCommonSearch(CurrentComparerDelegate compareItems, string key)
 		{
 			IList<string> searchResult = new List<string>();
-			string noMatchesSign = "-";
-			using (StreamReader reader = new StreamReader("../../../Test.txt"))
-			{
+
+			using (DataProvider) {
+				
 				string currentString;
-				while ((currentString = reader.ReadLine()) != null)
+				while ((currentString = DataProvider.GetCurrentItem()) != null)
 				{
-					if (comparison(currentString, key))
+					if (compareItems(currentString, key))
 					{
 						searchResult.Add(currentString);
 					}
 				}
 			}
 
-			if (!searchResult.Any())
-			{
-				searchResult.Add(noMatchesSign);
-			}
+			if (searchResult.Any()) return searchResult;
 			
+			//if tthere are no matches
+			string noMatchesSign = ConfigurationManager.AppSettings["NoMathchesSign"] ?? "-";
+			searchResult.Add(noMatchesSign);
+
 			return searchResult;
 		}
 	}

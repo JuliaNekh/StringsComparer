@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWorker", "FileWorker\Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchProvider", "SearchProvider\SearchProvider.csproj", "{C78BF726-52F7-48E6-AF66-16D281F01447}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProvider", "DataProvider\DataProvider.csproj", "{D4B4720A-F027-48E6-ABD8-CC46D4A2671D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C78BF726-52F7-48E6-AF66-16D281F01447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C78BF726-52F7-48E6-AF66-16D281F01447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C78BF726-52F7-48E6-AF66-16D281F01447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B4720A-F027-48E6-ABD8-CC46D4A2671D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B4720A-F027-48E6-ABD8-CC46D4A2671D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B4720A-F027-48E6-ABD8-CC46D4A2671D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B4720A-F027-48E6-ABD8-CC46D4A2671D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

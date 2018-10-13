@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using SearchProvider.ISearch;
+using SearchProvider.IStrategy;
 using SearchProvider.Search;
 
 namespace FileWorker
@@ -11,10 +9,10 @@ namespace FileWorker
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("enter 'q' to exit");
-			while (Console.ReadLine() != "q")
+			Console.WriteLine("Enter search key: ");
+			var key = Console.ReadLine();
+			while ( key != "q")
 			{
-				Console.WriteLine("Enter search key: ");
-				var key = Console.ReadLine();
 				if (!string.IsNullOrEmpty(key))
 				{
 					ISearchStrategy	searchStrategy = new EndsWithSearchStrategy();
@@ -22,11 +20,14 @@ namespace FileWorker
 //					ISearchStrategy	searchStrategy = new WholeWordSearchStrategy();
 
 					var result = searchStrategy.PerformSearch(key);
+					Console.WriteLine("Search results: ");
 					foreach (var match in result)
 					{
 						Console.WriteLine(match);
 					}
 				}
+				Console.WriteLine("Enter new key: ");
+				key = Console.ReadLine();
 			}
 		}
 	}
