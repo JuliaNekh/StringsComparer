@@ -7,8 +7,8 @@ namespace DataProvider.DataProviders
 {
 	public class FileDataProvider: IDataProvider
 	{
-		private static string _filePath;
-		private static StreamReader _reader;
+		private string _filePath;
+		private StreamReader _reader;
 
 		public FileDataProvider()
 		{
@@ -21,20 +21,27 @@ namespace DataProvider.DataProviders
 			_filePath = filePath;
 		}
 
-		public static StreamReader Reader
+		public StreamReader Reader
 		{
 			get
 			{
 				if (_reader == null)
 				{
-					_reader = new StreamReader(FilePath);
+					try
+					{
+						_reader = new StreamReader(FilePath);
+					}
+					catch (Exception ex)
+					{
+						throw ex;
+					}
 				}
 
 				return _reader;
 			}
 		}
 		
-		public static string FilePath
+		public string FilePath
 		{
 			get
 			{
@@ -51,7 +58,7 @@ namespace DataProvider.DataProviders
 			return Reader.ReadLine();	
 		}
 		
-		private static string GetDefaultFilePath()
+		private string GetDefaultFilePath()
 		{
 			var path = ConfigurationManager.AppSettings["DefaultFilePath"];
 			ValidatePath(path);
@@ -59,18 +66,26 @@ namespace DataProvider.DataProviders
 			return path;
 		}
 
-		private static void ValidatePath(string path)
+		private void ValidatePath(string path)
 		{
 			if (string.IsNullOrEmpty(path))
 			{
-				throw new ArgumentNullException(path, "Default File Path is null");
+				throw new ArgumentNullException(path, "File Path is null");
 			}
 		}
 
 		public void Dispose()
 		{
-			_reader.Close();
-			_reader = null;
+			if (_reader != null)
+			{
+				_reader.Close();
+				_reader = null;
+			}
+		}
+
+		~FileDataProvider()
+		{
+			Dispose();
 		}
 	}
 }

@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using DataProvider.IDataProviders;
 using SearchProvider.ISearch;
 
 namespace SearchProvider.Search
 {
 	public class EqualsSearchStrategy: ASearchStrategy
 	{
-		private CurrentComparerDelegate CurrentComparer => EqualsComparer;
+		public EqualsSearchStrategy(IDataProvider dataProvider) : base(dataProvider)
+		{
+		}
 		
 		public IList<string> PerformSearch(string key)
 		{
-			IList<string> searchResult = PerformCommonSearch(CurrentComparer, key);
+			IList<string> searchResult = PerformCommonSearch(EqualsComparer, key);
 			return searchResult;
 		}
 

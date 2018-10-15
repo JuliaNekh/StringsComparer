@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using DataProvider.DataProviders;
 using DataProvider.IDataProviders;
 
 namespace SearchProvider.ISearch
@@ -10,16 +7,21 @@ namespace SearchProvider.ISearch
 	{
 		public delegate bool CurrentComparerDelegate(string currentString, string key);
 
-		private static IDataProvider DataProvider => new FileDataProvider();
+		private IDataProvider _dataProvider;
 
+		public ASearchStrategy(IDataProvider dataProvider)
+		{
+			_dataProvider = dataProvider;
+		}
+		
 		protected IList<string> PerformCommonSearch(CurrentComparerDelegate compareItems, string key)
 		{
 			IList<string> searchResult = new List<string>();
 
-			using (DataProvider) {
+			using (_dataProvider) {
 				
 				string currentString;
-				while ((currentString = DataProvider.GetCurrentItem()) != null)
+				while ((currentString = _dataProvider.GetCurrentItem()) != null)
 				{
 					if (compareItems(currentString, key))
 					{
@@ -27,12 +29,6 @@ namespace SearchProvider.ISearch
 					}
 				}
 			}
-
-			if (searchResult.Any()) return searchResult;
-			
-			//if tthere are no matches
-			string noMatchesSign = ConfigurationManager.AppSettings["NoMathchesSign"] ?? "-";
-			searchResult.Add(noMatchesSign);
 
 			return searchResult;
 		}
